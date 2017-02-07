@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/customer")]
     public class ClaimsController : Controller
     {
-        // Post api/customer/claimstatus
+        // Post api/customer/claimstatus 
             [Route("claimstatus")]
             [HttpPost]
             public IActionResult Post([FromBody]string value)
