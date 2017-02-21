@@ -1,31 +1,48 @@
 using Microsoft.AspNetCore.Mvc;
+using FisherInsuranceApi.Data;
+using System.Collections.Generic;
+using FisherInsuranceApi.Models;
+using System;
 
 [Route("api/customer")]
     public class ClaimsController : Controller
     {
-        // Post api/customer/claimstatus 
-            [Route("claimstatus")]
-            [HttpPost]
-            public IActionResult Post([FromBody]string value)
+            private IMemoryStore db;
+            public ClaimsController(IMemoryStore repo)
             {
-                return Created("", value);
+                db = repo;
             }
+
+            [HttpGet]
+            public IActionResult GetClaims()
+            {
+                return Ok(db.RetrieveAllClaims);
+            }
+        
         // GET api/customer/claimstatus/5
             [Route("claimstatus")]
             [HttpGet("{id}")]
 
             public IActionResult Get(int id)
             {
-                return Ok("The id is: " + id);
+                return Ok(db.RetrieveClaim(id));
+            }
+
+            // Post api/customer/claimstatus 
+            [Route("claimstatus")]
+            [HttpPost]
+            public IActionResult Post([FromBody]Claim claim)
+            {
+                return Ok(db.CreateClaim(claim));
             }
 
              // PUT api/customer/claimstatus/id
             [Route("claimstatus")]
             [HttpPut("{id}")]
 
-            public IActionResult Put(int id, [FromBody]string value)
+            public IActionResult Put(int id, [FromBody]Claim claim)
             {
-                return NoContent();
+                return Ok(db.UpdateClaim(claim));
             }
 
         // DELETE api/customer/claimstatus/id
@@ -33,7 +50,8 @@ using Microsoft.AspNetCore.Mvc;
             [HttpDelete("{id}")]
             public IActionResult Delete(int id)
             {
-                return Delete(id);
+                db.DeleteClaim(id);
+                return Ok();
             }
         
     }
