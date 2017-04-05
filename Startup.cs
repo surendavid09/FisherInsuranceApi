@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FisherInsuranceApi.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,7 @@ namespace FisherInsuranceApi
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddSingleton<IMemoryStore, MemoryStore>();
             services.AddMvc();
         }
 
@@ -36,7 +38,9 @@ namespace FisherInsuranceApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
