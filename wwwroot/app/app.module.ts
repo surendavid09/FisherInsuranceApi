@@ -20,7 +20,7 @@ import { NavBarComponent } from "./components/navbar/navbar.component"
     ],
     providers: [
         
-        ],
+    ],
     bootstrap: [
         AppComponent
     ],
